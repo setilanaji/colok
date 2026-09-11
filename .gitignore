@@ -1,0 +1,5 @@
+.build/
+Colok.app/
+.DS_Store
+.swiftpm/
+*.xcuserstate
