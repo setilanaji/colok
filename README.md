@@ -82,6 +82,25 @@ colok on              # everything attached, online
 colok off
 ```
 
+## VPNs and exit nodes
+
+Internet Sharing and tethered caching both NAT onto a **physical** interface. If
+a VPN owns the default route — a Tailscale exit node being the common case — the
+Mac stays online but every tethered device goes dark: their packets are
+translated onto an interface that no longer carries traffic.
+
+```sh
+tailscale set --exit-node=      # clear it; plain Tailscale is harmless
+```
+
+Plain Tailscale only routes `100.64.0.0/10` and does not interfere. Only the
+exit node installs a default route.
+
+The Android lane is immune, which makes this confusing to diagnose: its relay
+opens ordinary sockets that follow the routing table, so Android keeps working
+(and its traffic does exit via the exit node) while iOS fails completely.
+`colok diag` now flags this outright.
+
 ## Known limits
 
 - gnirehtet is IPv4 TCP/UDP only. No IPv6, no raw ICMP — `ping` from the phone

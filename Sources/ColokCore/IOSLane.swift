@@ -142,6 +142,13 @@ public enum IOSLane {
             if let iface = primaryInterface(), !iface.wired {
                 message = "Enabled but not active. Uplink \(iface.name) is wireless; tethered caching may require a wired uplink."
             }
+        } else if Uplink.tunnelHoldsDefaultRoute {
+            // The tetherator's NAT rule targets the physical uplink. A tunnel on
+            // the default route silently strands every bridged device.
+            let tunnel = Uplink.defaultRouteDevice() ?? "a tunnel"
+            message = "Bridged, but \(tunnel) holds the default route (a Tailscale exit node does this). "
+                + "Tethered devices get NAT'd onto an interface that no longer carries traffic. "
+                + "Clear the exit node: tailscale set --exit-node="
         } else if devs.isEmpty {
             let via = primaryInterface().map { " via \($0.name)" } ?? ""
             message = "Active\(via) - plug in an iPhone or iPad."

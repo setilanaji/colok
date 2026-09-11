@@ -15,6 +15,9 @@ public enum Diagnostics {
 
         // --- Uplink the Mac itself has
         report.add("uplink", Uplink.describe())
+        if let device = Uplink.defaultRouteDevice(), Uplink.isTunnel(device) {
+            report.add("WARNING", "\(device) holds the default route - tethered devices will have no connectivity")
+        }
         if let iface = IOSLane.primaryInterface() {
             report.add("tetherator uplink", "\(iface.name), \(iface.mbps) Mbps, wired=\(iface.wired)")
         } else {

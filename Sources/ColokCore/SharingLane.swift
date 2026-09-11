@@ -116,6 +116,9 @@ public enum SharingLane {
             } else {
                 message = "Share \(uplink.name) to \(candidates.map(\.name).joined(separator: ", "))."
             }
+        } else if let device = Uplink.defaultRouteDevice(), Uplink.isTunnel(device) {
+            message = "\(device) holds the default route. Internet Sharing NATs onto a physical "
+                + "interface, so disconnect the VPN first."
         } else {
             message = "No default route."
         }
