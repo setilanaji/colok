@@ -31,6 +31,10 @@ because the Mac's own radio can never do it alone:
 Wi-Fi in → Wi-Fi out is refused by macOS and rejected by Colok before it writes
 anything: one radio cannot be a client and an access point at the same time.
 
+If you have no Ethernet adapter, [`hardware/pi-zero-2w/`](hardware/pi-zero-2w/)
+turns a $15 Raspberry Pi Zero 2 W into that second radio over a single USB
+cable — no adapter, no separate power.
+
 Internet Sharing needs root writes to `com.apple.nat.plist`. Whitelisting
 `defaults` under sudo would be equivalent to handing out a root shell, so Colok
 installs `/usr/local/libexec/colok-share` instead — root-owned, mode 0755, and it
